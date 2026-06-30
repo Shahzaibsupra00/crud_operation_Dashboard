@@ -39,7 +39,6 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      ref: "Role",
       default: "user",
     },
     img: {

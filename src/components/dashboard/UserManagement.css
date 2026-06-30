@@ -1,0 +1,33 @@
+/* Add this to your dashboard.css */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensures it sits on top of everything */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  /* Optional: allows the modal to scroll if the screen is too small */
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Added slightly better spacing for the form inside the modal */
+.modal-content .user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

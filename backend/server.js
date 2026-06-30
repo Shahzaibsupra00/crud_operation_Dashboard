@@ -22,11 +22,13 @@ mongoose
 // --- IMPORT YOUR ROUTES ---
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const roleRoutes = require("./routes/roleRoutes");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // --- USE YOUR ROUTES ---
 app.use("/api/auth", authRoutes);
+app.use("/api", roleRoutes);
 app.use("/api/users", userRoutes); // Tell Express to use the user routes
 
 app.listen(5000, () => {

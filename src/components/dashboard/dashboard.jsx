@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import UserManagement from "./UserManagement";
+import RoleManagement from "./RoleManagement"; // Import the new component
 import "./dashboard.css";
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const [activeView, setActiveView] = useState("home");
 
   const admin = JSON.parse(localStorage.getItem("admin"));
@@ -21,6 +21,8 @@ const Dashboard = () => {
     switch (activeView) {
       case "users":
         return <UserManagement />;
+      case "roles":
+        return <RoleManagement />; // Add the Role component to the switch statement
       case "home":
       default:
         return (
@@ -57,7 +59,6 @@ const Dashboard = () => {
         {/* Sidebar */}
         <aside className={`dashboard-sidebar ${isSidebarOpen ? "open" : ""}`}>
           <ul className="sidebar-menu">
-            {/* Update state when clicked */}
             <li
               onClick={() => setActiveView("home")}
               className={activeView === "home" ? "active" : ""}
@@ -70,6 +71,12 @@ const Dashboard = () => {
             >
               Users
             </li>
+            <li
+              onClick={() => setActiveView("roles")}
+              className={activeView === "roles" ? "active" : ""}
+            >
+              Roles
+            </li>
           </ul>
         </aside>
 
@@ -80,7 +87,8 @@ const Dashboard = () => {
       {/* Footer */}
       <footer className="dashboard-footer">
         <p>
-          &copy; {new Date().getFullYear()} TECHNIC MENTORS. All rights reserved.
+          &copy; {new Date().getFullYear()} TECHNIC MENTORS. All rights
+          reserved.
         </p>
       </footer>
     </div>
