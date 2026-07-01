@@ -31,3 +31,34 @@
   flex-direction: column;
   gap: 12px;
 }
+
+/* Dark background overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensures it sits above everything else */
+}
+
+/* The actual form container */
+.modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px; /* Adjust based on your form grid */
+  max-height: 90vh; /* Prevents it from going off-screen */
+  overflow-y: auto; /* Allows scrolling inside the modal if the form is too tall */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Optional: Make the close button look nice on hover */
+.close-modal-btn:hover {
+  color: #dc3545;
+}

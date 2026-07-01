@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// Make sure this import is actually being used, otherwise you can remove it:
-// import dashboard from "../dashboard/dashboard";
 import axios from "axios";
 import "./login.css";
 
@@ -25,11 +23,7 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(user));
 
         // Route the user based on their role
-        if (user.role === "admin") {
-          window.location.href = "/dashboard";
-        } else {
-          window.location.href = "/dashboard"; // Change this to your user's landing page
-        }
+        window.location.href = "/dashboard";
       }
     } catch (error) {
       // The backend now returns a 403 error with a message if the status is "N".
@@ -60,7 +54,7 @@ const Login = () => {
         <input
           className="form-input"
           type="password"
-          placeholder="*************"
+          placeholder="********"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           name="password"

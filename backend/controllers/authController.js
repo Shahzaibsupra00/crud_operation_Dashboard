@@ -17,7 +17,6 @@ const login = async (req, res) => {
     const account = await User.findOne({
       email,
       password,
-      role: { $in: ["admin", "user"] }, // This allows either role to proceed
     });
 
     // 3. Verify credentials exist

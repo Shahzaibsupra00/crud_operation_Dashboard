@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import UserManagement from "./UserManagement";
-import RoleManagement from "./RoleManagement"; // Import the new component
+import RoleManagement from "./RoleManagement";
+import CustomersManagement from "./CustomersManagement/CustomersManagement";
+import SuppliersManagement from "./SuppliersManagement/SuppliersManagement";
+import EmployersManagement from "./EmployersManagement/EmployersManagement";
 import "./dashboard.css";
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeView, setActiveView] = useState("home");
+
+  // NEW: State to track which modules are expanded in the sidebar
+  const [expandedMenus, setExpandedMenus] = useState({
+    systemUsers: false,
+    people: false,
+  });
 
   const admin = JSON.parse(localStorage.getItem("admin"));
   const user = JSON.parse(localStorage.getItem("user"));
@@ -17,12 +26,29 @@ const Dashboard = () => {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  // NEW: Function to toggle individual modules open and closed
+  const toggleSubMenu = (menuName) => {
+    setExpandedMenus((prevState) => ({
+      ...prevState,
+      [menuName]: !prevState[menuName], // Toggle the clicked menu
+    }));
+  };
+
   const renderContent = () => {
     switch (activeView) {
       case "users":
         return <UserManagement />;
       case "roles":
-        return <RoleManagement />; // Add the Role component to the switch statement
+        return <RoleManagement />;
+
+      // NEW: Placeholder views for the People module
+      case "customers":
+        return <CustomersManagement />;
+      case "suppliers":
+        return <SuppliersManagement />;
+      case "employers":
+        return <EmployersManagement />;
+
       case "home":
       default:
         return (
@@ -59,23 +85,136 @@ const Dashboard = () => {
         {/* Sidebar */}
         <aside className={`dashboard-sidebar ${isSidebarOpen ? "open" : ""}`}>
           <ul className="sidebar-menu">
+            {/* Top Level Item */}
             <li
               onClick={() => setActiveView("home")}
-              className={activeView === "home" ? "active" : ""}
+              className={`menu-item ${activeView === "home" ? "active" : ""}`}
+              style={{ cursor: "pointer", padding: "10px 15px" }}
             >
               Home
             </li>
-            <li
-              onClick={() => setActiveView("users")}
-              className={activeView === "users" ? "active" : ""}
-            >
-              Users
+
+            {/* MODULE 1: System Users */}
+            <li className="menu-module">
+              <div
+                className="module-header"
+                onClick={() => toggleSubMenu("systemUsers")}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                  padding: "5px",
+                  fontWeight: "bold",
+                  backgroundColor: expandedMenus.systemUsers
+                    ? "rgba(0,0,0,0.05)"
+                    : "transparent",
+                }}
+              >
+                <span>System Users</span>
+                <span>{expandedMenus.systemUsers ? "▼" : "▶"}</span>
+              </div>
+
+              {/* System Users Sub-modules */}
+              {expandedMenus.systemUsers && (
+                <ul
+                  className="sub-menu"
+                  style={{
+                    paddingLeft: "30px",
+                    listStyleType: "none",
+                    margin: 0,
+                  }}
+                >
+                  <li
+                    onClick={() => setActiveView("users")}
+                    className={activeView === "users" ? "active" : ""}
+                    style={{
+                      cursor: "pointer",
+                      padding: "8px 0",
+                      color: activeView === "users" ? "#007bff" : "inherit",
+                    }}
+                  >
+                    Users
+                  </li>
+                  <li
+                    onClick={() => setActiveView("roles")}
+                    className={activeView === "roles" ? "active" : ""}
+                    style={{
+                      cursor: "pointer",
+                      padding: "8px 0",
+                      color: activeView === "roles" ? "#007bff" : "inherit",
+                    }}
+                  >
+                    Roles
+                  </li>
+                </ul>
+              )}
             </li>
-            <li
-              onClick={() => setActiveView("roles")}
-              className={activeView === "roles" ? "active" : ""}
-            >
-              Roles
+
+            {/* MODULE 2: People */}
+            <li className="menu-module">
+              <div
+                className="module-header"
+                onClick={() => toggleSubMenu("people")}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                  padding: "10px 15px",
+                  fontWeight: "bold",
+                  backgroundColor: expandedMenus.people
+                    ? "rgba(0,0,0,0.05)"
+                    : "transparent",
+                }}
+              >
+                <span>People</span>
+                <span>{expandedMenus.people ? "▼" : "▶"}</span>
+              </div>
+
+              {/* People Sub-modules */}
+              {expandedMenus.people && (
+                <ul
+                  className="sub-menu"
+                  style={{
+                    paddingLeft: "30px",
+                    listStyleType: "none",
+                    margin: 0,
+                  }}
+                >
+                  <li
+                    onClick={() => setActiveView("customers")}
+                    className={activeView === "customers" ? "active" : ""}
+                    style={{
+                      cursor: "pointer",
+                      padding: "8px 0",
+                      color: activeView === "customers" ? "#007bff" : "inherit",
+                    }}
+                  >
+                    Customer
+                  </li>
+                  <li
+                    onClick={() => setActiveView("suppliers")}
+                    className={activeView === "suppliers" ? "active" : ""}
+                    style={{
+                      cursor: "pointer",
+                      padding: "8px 0",
+                      color: activeView === "suppliers" ? "#007bff" : "inherit",
+                    }}
+                  >
+                    Supplier
+                  </li>
+                  <li
+                    onClick={() => setActiveView("employers")}
+                    className={activeView === "employers" ? "active" : ""}
+                    style={{
+                      cursor: "pointer",
+                      padding: "8px 0",
+                      color: activeView === "employers" ? "#007bff" : "inherit",
+                    }}
+                  >
+                    Employer
+                  </li>
+                </ul>
+              )}
             </li>
           </ul>
         </aside>
