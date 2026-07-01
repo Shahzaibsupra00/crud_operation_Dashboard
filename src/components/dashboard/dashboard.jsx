@@ -211,7 +211,7 @@ const Dashboard = () => {
                       color: activeView === "employers" ? "#007bff" : "inherit",
                     }}
                   >
-                    Employer
+                    Employee
                   </li>
                 </ul>
               )}

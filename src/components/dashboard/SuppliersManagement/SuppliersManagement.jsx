@@ -7,6 +7,9 @@ const SuppliersManagement = () => {
   const [showForm, setShowForm] = useState(false);
   const [imageFile, setImageFile] = useState(null);
 
+  // NEW STATE: Holds the data of the supplier currently being viewed
+  const [viewingSupplier, setViewingSupplier] = useState(null);
+
   const [formData, setFormData] = useState({
     supplier_name: "",
     email: "",
@@ -93,6 +96,11 @@ const SuppliersManagement = () => {
   const handleAddNewSupplier = () => {
     resetForm();
     setShowForm(true);
+  };
+
+  // NEW FUNCTION: Sets the supplier to view
+  const handleView = (supplier) => {
+    setViewingSupplier(supplier);
   };
 
   const handleEdit = (supplier) => {
@@ -231,6 +239,21 @@ const SuppliersManagement = () => {
                   <td>{supplier.email}</td>
                   <td>{supplier.contact}</td>
                   <td>
+                    <button
+                      onClick={() => handleView(supplier)}
+                      className="edit-btn"
+                      style={{
+                        marginRight: "10px",
+                        padding: "5px 10px",
+                        backgroundColor: "#00f2ff",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        color: "#000",
+                      }}
+                    >
+                      👁
+                    </button>
                     <button
                       onClick={() => handleEdit(supplier)}
                       className="edit-btn"
@@ -520,6 +543,160 @@ const SuppliersManagement = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- NEW VIEW DETAILS MODAL SCREEN --- */}
+      {viewingSupplier && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#fff",
+              padding: "30px",
+              borderRadius: "8px",
+              width: "90%",
+              maxWidth: "500px",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "20px",
+                borderBottom: "1px solid #eee",
+                paddingBottom: "10px",
+              }}
+            >
+              <h2 style={{ margin: 0 }}>Supplier Details</h2>
+              <button
+                onClick={() => setViewingSupplier(null)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  fontSize: "24px",
+                  cursor: "pointer",
+                  color: "#666",
+                  lineHeight: 1,
+                }}
+              >
+                &times;
+              </button>
+            </div>
+
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "15px" }}
+            >
+              {/* Profile Image View */}
+              {viewingSupplier.pic ? (
+                <div style={{ textAlign: "center", marginBottom: "15px" }}>
+                  <img
+                    src={
+                      viewingSupplier.pic.startsWith("http")
+                        ? viewingSupplier.pic
+                        : `http://localhost:5000${viewingSupplier.pic}`
+                    }
+                    alt="Supplier"
+                    style={{
+                      width: "120px",
+                      height: "120px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    }}
+                  />
+                </div>
+              ) : (
+                <div
+                  style={{
+                    width: "120px",
+                    height: "120px",
+                    borderRadius: "50%",
+                    backgroundColor: "#f0f0f0",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto 15px auto",
+                    color: "#999",
+                  }}
+                >
+                  No Image
+                </div>
+              )}
+
+              {/* Data Rows */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 2fr",
+                  gap: "10px",
+                }}
+              >
+                <strong style={{ color: "#555" }}>Name:</strong>
+                <span>{viewingSupplier.supplier_name || "N/A"}</span>
+
+                <strong style={{ color: "#555" }}>Email:</strong>
+                <span>{viewingSupplier.email || "N/A"}</span>
+
+                <strong style={{ color: "#555" }}>Contact:</strong>
+                <span>{viewingSupplier.contact || "N/A"}</span>
+
+                <strong style={{ color: "#555" }}>CNIC:</strong>
+                <span>{viewingSupplier.cnic || "N/A"}</span>
+
+                <strong style={{ color: "#555" }}>Address:</strong>
+                <span>{viewingSupplier.address || "N/A"}</span>
+
+                <strong style={{ color: "#555" }}>Status:</strong>
+                <span>
+                  <span
+                    style={{
+                      padding: "3px 8px",
+                      borderRadius: "12px",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      backgroundColor:
+                        viewingSupplier.status === "Y" ? "#d4edda" : "#f8d7da",
+                      color:
+                        viewingSupplier.status === "Y" ? "#155724" : "#721c24",
+                    }}
+                  >
+                    {viewingSupplier.status === "Y" ? "Active" : "Inactive"}
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            <div style={{ marginTop: "25px", textAlign: "right" }}>
+              <button
+                onClick={() => setViewingSupplier(null)}
+                style={{
+                  padding: "10px 20px",
+                  cursor: "pointer",
+                  backgroundColor: "#6c757d",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                }}
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
