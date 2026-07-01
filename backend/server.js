@@ -23,13 +23,17 @@ mongoose
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const roleRoutes = require("./routes/roleRoutes");
+const customerRoutes = require("./routes/customerRoutes");
+const supplierRoutes = require("./routes/supplierRoutes");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // --- USE YOUR ROUTES ---
-app.use("/api/auth", authRoutes);
-app.use("/api", roleRoutes);
 app.use("/api/users", userRoutes); // Tell Express to use the user routes
+app.use("/api/auth", authRoutes);
+app.use("/api/", roleRoutes);
+app.use("/api/customers", customerRoutes);
+app.use("/api/suppliers", supplierRoutes);
 
 app.listen(5000, () => {
   console.log("Server Running on Port 5000");

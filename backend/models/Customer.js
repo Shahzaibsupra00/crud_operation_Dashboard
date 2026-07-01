@@ -25,7 +25,7 @@ const customerSchema = new mongoose.Schema(
     cnic: {
       type: String,
       unique: true,
-      sparse: true, // Note: if you want this unique but allow nulls, ensure you handle it carefully in MongoDB
+      sparse: true,
       trim: true,
     },
     address: {
@@ -39,6 +39,8 @@ const customerSchema = new mongoose.Schema(
     },
     pic: {
       type: String,
+      default:
+        "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
       trim: true,
     },
   },

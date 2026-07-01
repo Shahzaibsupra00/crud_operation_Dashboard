@@ -41,6 +41,8 @@ const supplierSchema = new mongoose.Schema(
     pic: {
       type: String,
       trim: true,
+      default:
+        "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
     },
   },
   {
